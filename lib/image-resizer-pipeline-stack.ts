@@ -29,6 +29,7 @@ export class ImageResizerStackPipelineStack extends cdk.Stack {
 
         const test = new TestStage(this, 'test')
         const testStage = pipeline.addStage(test)
+        
 
     }
 }
