@@ -1,0 +1,1 @@
+GET https://r2n9jl9foa.execute-api.us-east-1.amazonaws.com/prod/getSignedUrl
