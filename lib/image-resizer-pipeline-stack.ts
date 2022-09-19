@@ -2,6 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as codecommit from 'aws-cdk-lib/aws-codecommit'
 import { CodeBuildStep, CodePipeline, CodePipelineSource } from 'aws-cdk-lib/pipelines';
+import { TestStage } from './test-stage';
+
 export class ImageResizerStackPipelineStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
@@ -24,6 +26,9 @@ export class ImageResizerStackPipelineStack extends cdk.Stack {
                 ]
             })
         })
+
+        const test = new TestStage(this, 'test')
+        const testStage = pipeline.addStage(test)
 
     }
 }
