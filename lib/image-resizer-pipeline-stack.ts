@@ -22,6 +22,7 @@ export class ImageResizerStackPipelineStack extends cdk.Stack {
                 commands: [
                     'npm ci',
                     'npm build',
+                    'cd lambda/imageworker && npm install && cd .. && cd ..',
                     'npx cdk synth'
                 ]
             })
