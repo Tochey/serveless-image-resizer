@@ -1,12 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>This is hosted by s3</h1>
-</body>
+  </head>
+  <style>
+    body {
+      background-color: black;
+    }
+
+    h1,
+    p {
+      color: white;
+    }
+
+    #display-image {
+      width: 400px;
+      min-height: 50vh;
+      border: 1px solid black;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      background-position: 0% 0%;
+      background-size: contain;
+    }
+
+    #image-input {
+      width: 100px;
+    }
+
+    #width-input {
+      width: 50px;
+      outline: none;
+    }
+
+    #height-input {
+      width: 50px;
+      outline: none;
+    }
+    
+    a{
+        color: darkblue;
+        font-weight: bolder;
+    }
+  </style>
+
+  <body>
+    <h1>Serverless Image Resizer - SIR</h1>
+    <input type="file" id="image-input" accept="image/jpeg, image/jpg" />
+    <button id="upload_file">Upload</button>
+    <br />
+    <br />
+    <input type="number" placeholder="width" id="width-input" />
+    <input type="number" placeholder="height" id="height-input" />
+    <p id="image-name"></p>
+    <a id="view-image" href="/"></a>
+    <div id="display-image"></div>
+    <script src="script.js"></script>
+  </body>
 </html>
