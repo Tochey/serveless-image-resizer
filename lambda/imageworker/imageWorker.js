@@ -8,14 +8,14 @@ const URL_EXPIRATION_SECONDS = 1200
 
 exports.handler = async function (event) {
     const path = event?.requestContext?.resourcePath
- 
+
     if (path === '/getUploadSignedUrl') {
         const randomID = uuidv4()
         const Key = `${randomID}.jpeg`
 
         const metadata = {
-            height : `${event.headers["x-amz-meta-height"]}`,
-            width : `${event.headers["x-amz-meta-width"]}`
+            height: `${event.headers["x-amz-meta-height"]}`,
+            width: `${event.headers["x-amz-meta-width"]}`
         }
 
         const s3Params = {
@@ -43,15 +43,8 @@ exports.handler = async function (event) {
 
     }
 
-    if(path === '/getDownloadSignedUrl'){
-        const randomID = uuidv4()
-        // const Key = `${randomID}.jpeg`
-        const Key = 'mona.jpeg'
-
-        // const metadata = {
-        //     height : `${event.headers["x-amz-meta-height"]}`,
-        //     width : `${event.headers["x-amz-meta-width"]}`
-        // }
+    if (path === '/getDownloadSignedUrl') {
+        const Key = event.headers["x-amz-meta-key"]
 
         const s3Params = {
             Bucket: process.env.s3_OUTPUT_BUCKET,

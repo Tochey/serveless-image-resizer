@@ -3,6 +3,7 @@ const upload_file = document.querySelector("#upload_file");
 const width = document.querySelector("#width-input");
 const height = document.querySelector("#height-input");
 let uploaded_image;
+let preSignedUploadUrl;
 
 image_input.addEventListener("change", function () {
     const reader = new FileReader();
@@ -26,8 +27,8 @@ upload_file.addEventListener("click", async function () {
     if (!height.value || height.value > 2000) return document.querySelector("#image-name").innerHTML = 'Please Enter a valid height';
 
     document.querySelector("#image-name").innerHTML = 'Image Succesfully Uploaded, Please wait for re-sized image';
-    
-    const preSignedUrl = await fetch('https://pogs7utge0.execute-api.us-east-1.amazonaws.com/prod/getSignedUrl', {
+
+    preSignedUploadUrl = await fetch('https://pogs7utge0.execute-api.us-east-1.amazonaws.com/prod/getUploadSignedUrl', {
         headers: {
             "x-amz-meta-height": `${height.value}`,
             "x-amz-meta-width": `${width.value}`
@@ -42,23 +43,32 @@ upload_file.addEventListener("click", async function () {
     }
     let blobData = new Blob([new Uint8Array(array)], { type: 'image/jpeg' })
 
-    // await fetch(preSignedUrl.url, {
-    //     method: 'PUT',
-    //     body: blobData
-    // })
+    await fetch(preSignedUploadUrl.url, {
+        method: 'PUT',
+        body: blobData
+    })
 
-    const resizedImage =  document.querySelector("#view-image")
+    const resizedImage = document.querySelector("#view-image")
 
-    const getUploadedObject = () => {
-        
-    //    resizedImage.innerText = 'click to view resized image';
+    const getUploadedObject = async () => {
+        const preSignedDownloadUrl = await fetch('https://pogs7utge0.execute-api.us-east-1.amazonaws.com/prod/getDownloadSignedUrl', {
+            headers: {
+                "x-amz-meta-key": `${preSignedUploadUrl.Key}`
+            }
+        }).then((e) => e.json())
+        resizedImage.innerText = 'view resized image';
+
+        resizedImage.addEventListener('click', async function () {
+            //retrieve image from s3
+            var img = new Image();
+            img.src = preSignedDownloadUrl.url
+            document.querySelector("#display-image").style.backgroundImage = '';
+            document.querySelector("#display-image").appendChild(img);
+        })
     }
 
-     setTimeout(() => {
-       getUploadedObject()
-      }, "3000")
+    setTimeout(() => {
+        getUploadedObject()
+    }, "3000")
 
-      resizedImage.addEventListener('click', async function(){
-        //retrieve image from s3
-      })
 })

@@ -47,7 +47,18 @@ export class ImageResizerStack extends cdk.Stack {
     })
 
     const outputBucket = new aws_s3.Bucket(this, 'userOutputBucket', {
-      removalPolicy: RemovalPolicy.DESTROY
+      removalPolicy: RemovalPolicy.DESTROY,
+      cors: [
+        {
+          allowedMethods: [
+            aws_s3.HttpMethods.GET,
+            aws_s3.HttpMethods.POST,
+            aws_s3.HttpMethods.PUT,
+          ],
+          allowedOrigins: ['*'],
+          allowedHeaders: ['*'],
+        },
+      ]
     })
 
       const imageWorker = new lambda.Function(this, "image-worker", {
@@ -93,5 +104,6 @@ export class ImageResizerStack extends cdk.Stack {
     uploadBucket.grantPut(imageWorker)
     uploadBucket.grantRead(imageWorker)
     outputBucket.grantPut(imageWorker)
+    outputBucket.grantRead(imageWorker)
   }
 }
