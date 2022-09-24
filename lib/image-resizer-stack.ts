@@ -15,7 +15,8 @@ export class ImageResizerStack extends cdk.Stack {
       publicReadAccess: true,
       websiteIndexDocument: "index.html",
       websiteErrorDocument: "error.html",
-      removalPolicy: RemovalPolicy.DESTROY
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects : true
     })
 
 
@@ -43,7 +44,8 @@ export class ImageResizerStack extends cdk.Stack {
           allowedOrigins: ['*'],
           allowedHeaders: ['*'],
         },
-      ]
+      ],
+      autoDeleteObjects : true
     })
 
     const outputBucket = new aws_s3.Bucket(this, 'userOutputBucket', {
@@ -58,7 +60,8 @@ export class ImageResizerStack extends cdk.Stack {
           allowedOrigins: ['*'],
           allowedHeaders: ['*'],
         },
-      ]
+      ],
+      autoDeleteObjects : true
     })
 
       const imageWorker = new lambda.Function(this, "image-worker", {

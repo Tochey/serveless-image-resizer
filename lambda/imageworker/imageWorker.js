@@ -4,7 +4,7 @@ const sharp = require('sharp')
 
 
 const s3 = new aws.S3()
-const URL_EXPIRATION_SECONDS = 1200
+const URL_EXPIRATION_SECONDS = 60
 
 exports.handler = async function (event) {
     const path = event?.requestContext?.resourcePath
@@ -82,7 +82,7 @@ exports.handler = async function (event) {
             {
                 width: parseInt(obj.Metadata.width),
                 height: parseInt(obj.Metadata.height),
-                fit: 'fill'
+                fit: 'outside',
             })
         .toBuffer();
 
@@ -102,7 +102,7 @@ exports.handler = async function (event) {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
         },
-        body: "Image is processing, Please be patient"
+        body: "Image Resized"
     }
 
 }
