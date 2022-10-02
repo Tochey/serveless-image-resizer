@@ -29,8 +29,6 @@ export class ImageResizerStack extends cdk.Stack {
     new cdk.CfnOutput(this, "static-website-url", {
       value: website.bucketWebsiteUrl,
       description: "Bucket Website Url"
-      
-      
     })
     const uploadBucket = new aws_s3.Bucket(this, 'userUploadBucket', {
       removalPolicy: RemovalPolicy.DESTROY,
